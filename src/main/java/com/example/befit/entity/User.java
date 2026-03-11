@@ -5,6 +5,8 @@ import com.example.befit.entity.Enum.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -22,7 +24,7 @@ public class User extends BaseEntity {
     private String passwordHash;
 
     @Column(name = "dob")
-    private String dob;
+    private Date dob;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)

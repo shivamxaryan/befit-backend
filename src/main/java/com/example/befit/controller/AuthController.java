@@ -1,0 +1,30 @@
+package com.example.befit.controller;
+
+import com.example.befit.dto.request.RegistrationRequest;
+import com.example.befit.dto.response.ApiResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/rest/v1/api")
+@RequiredArgsConstructor
+@Slf4j
+public class AuthController {
+
+    @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest){
+        try {
+            //TODO: add service here
+            return null;
+        } catch (Exception e) {
+            log.error("Error during user registration", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Error registering user: " + e.getMessage(), null));
+        }
+    }
+}
