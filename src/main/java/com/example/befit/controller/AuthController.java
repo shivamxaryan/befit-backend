@@ -2,6 +2,7 @@ package com.example.befit.controller;
 
 import com.example.befit.dto.request.RegistrationRequest;
 import com.example.befit.dto.response.ApiResponse;
+import com.example.befit.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
+    private final AuthService authService;
 
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest){
         try {
-            //TODO: add service here
-            return null;
+            ApiResponse response = authService.register(registrationRequest);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error during user registration", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

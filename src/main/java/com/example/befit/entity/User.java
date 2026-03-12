@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 public class User extends BaseEntity {
     @Column(name = "full_name", nullable = false)
-    private String firstName;
+    private String fullName;
 
     @Column(name = "phone_number")
     private String phoneNumber;
