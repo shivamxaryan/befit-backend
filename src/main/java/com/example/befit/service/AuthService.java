@@ -2,7 +2,7 @@ package com.example.befit.service;
 
 import com.example.befit.dto.request.RegistrationRequest;
 import com.example.befit.dto.response.ApiResponse;
-import com.example.befit.entity.User;
+import com.example.befit.entity.Users;
 import com.example.befit.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class AuthService {
     @Transactional
     public ApiResponse<Void> register(@Valid RegistrationRequest request){
         try{
-            User user = new User();
+            Users user = new Users();
             user.setFullName(request.getFullName());
             user.setEmail(request.getEmail());
             user.setDob(request.getDob());

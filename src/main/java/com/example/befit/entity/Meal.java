@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Meal extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "meal_type")
     private MealType mealType;

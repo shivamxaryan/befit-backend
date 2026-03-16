@@ -9,7 +9,7 @@ import lombok.Data;
 public class CustomFood extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "name", nullable = false)
     private String customFoodName;
