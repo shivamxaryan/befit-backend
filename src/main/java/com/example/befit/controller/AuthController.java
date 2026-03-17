@@ -1,5 +1,6 @@
 package com.example.befit.controller;
 
+import com.example.befit.dto.request.LoginRequest;
 import com.example.befit.dto.request.RegistrationRequest;
 import com.example.befit.dto.response.ApiResponse;
 import com.example.befit.service.AuthService;
@@ -27,6 +28,19 @@ public class AuthController {
             log.error("Error during user registration", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse(false, "Error registering user: " + e.getMessage(), null));
+        }
+    }
+
+    @PostMapping(value = "/login", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request){
+        try{
+            ApiResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error during login", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Error during login: " + e.getMessage(), null));
         }
     }
 }

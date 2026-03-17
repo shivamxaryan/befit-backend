@@ -1,5 +1,6 @@
 package com.example.befit.service;
 
+import com.example.befit.dto.request.LoginRequest;
 import com.example.befit.dto.request.RegistrationRequest;
 import com.example.befit.dto.response.ApiResponse;
 import com.example.befit.entity.Users;
@@ -7,6 +8,9 @@ import com.example.befit.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public ApiResponse<Void> register(@Valid RegistrationRequest request){
@@ -38,4 +43,18 @@ public class AuthService {
         }
     }
 
+    public ApiResponse<Void> login(@Valid LoginRequest request) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
+        );
+
+        // TODO: JWT Token part
+
+        return new ApiResponse(
+                true,
+                "Login successful",
+                "todo"
+        );
+    }
 }
