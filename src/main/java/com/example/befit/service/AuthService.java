@@ -7,6 +7,7 @@ import com.example.befit.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class AuthService {
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     @Transactional
     public ApiResponse<Void> register(@Valid RegistrationRequest request){
@@ -24,7 +26,7 @@ public class AuthService {
             user.setEmail(request.getEmail());
             user.setDob(request.getDob());
             user.setGender(request.getGender());
-            user.setPasswordHash(request.getPassword());
+            user.setPassword(encoder.encode(request.getPassword()));
             userRepository.save(user);
 
             return ApiResponse.<Void>builder()
