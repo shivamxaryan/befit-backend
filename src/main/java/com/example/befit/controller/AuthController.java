@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
@@ -32,15 +32,16 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request){
-        try{
-            ApiResponse response = authService.login(request);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            log.error("Error during login", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse(false, "Error during login: " + e.getMessage(), null));
-        }
+    public ResponseEntity<ApiResponse<String>> login(@Valid @RequestBody LoginRequest request) {
+
+        String token = authService.login(request);
+
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .success(true)
+                .message("Login successful")
+                .data(token)
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }

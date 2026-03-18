@@ -8,5 +8,10 @@ spring:
     password: 1234
 
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret: "NLrtJY4slIon0zXF8Gg9d1eBTMCqKOUw"
+  expiration: 3600000

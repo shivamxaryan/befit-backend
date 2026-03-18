@@ -5,15 +5,23 @@ import com.example.befit.dto.request.RegistrationRequest;
 import com.example.befit.dto.response.ApiResponse;
 import com.example.befit.entity.Users;
 import com.example.befit.repository.UserRepository;
+import com.example.befit.security.JwtUtil;
+import io.jsonwebtoken.Jwts;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +30,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public ApiResponse<Void> register(@Valid RegistrationRequest request){
@@ -43,18 +52,15 @@ public class AuthService {
         }
     }
 
-    public ApiResponse<Void> login(@Valid LoginRequest request) {
+    public String login(LoginRequest request) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
         );
 
-        // TODO: JWT Token part
-
-        return new ApiResponse(
-                true,
-                "Login successful",
-                "todo"
-        );
+        return jwtUtil.generateToken(request.getEmail());
     }
 }
