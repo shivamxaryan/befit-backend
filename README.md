@@ -1,4 +1,4 @@
-# 🥗 Indian Fitness Calorie Tracker (Backend)
+# 🥗 Be-Fit Fitness Calorie Tracker (Backend)
 
 ## 📌 Overview
 
