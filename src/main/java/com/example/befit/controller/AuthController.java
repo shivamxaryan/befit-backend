@@ -2,6 +2,7 @@ package com.example.befit.controller;
 
 import com.example.befit.dto.request.LoginRequest;
 import com.example.befit.dto.request.RegistrationRequest;
+import com.example.befit.dto.request.SendOtpRequest;
 import com.example.befit.dto.response.ApiResponse;
 import com.example.befit.service.AuthService;
 import jakarta.validation.Valid;
@@ -44,4 +45,21 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping(value = "/sendOtp", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ApiResponse> sendOtp(@RequestBody SendOtpRequest request){
+        try {
+            String email = request.getEmail();
+
+//            authService.sendOtp(email);
+
+            return ResponseEntity.ok(new ApiResponse(true, "OTP sent successfully",null));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse(false, "Failed to send OTP",null));
+        }
+    }
+
 }
