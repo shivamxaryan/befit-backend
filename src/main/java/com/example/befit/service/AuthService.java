@@ -32,9 +32,19 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    public boolean doesEmailExist(String email){
+        return userRepository.existsByEmail(email);
+    }
+
     @Transactional
     public ApiResponse<Void> register(@Valid RegistrationRequest request){
         try{
+            if(doesEmailExist(request.getEmail())){
+                return ApiResponse.<Void>builder()
+                        .success(false)
+                        .message("Email already exists")
+                        .build();
+            }
             Users user = new Users();
             user.setFullName(request.getFullName());
             user.setEmail(request.getEmail());
